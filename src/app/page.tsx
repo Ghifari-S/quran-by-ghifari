@@ -14,6 +14,8 @@ interface Surah {
 }
 
 export default function Home() {
+  console.log('run home');
+
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,8 +24,9 @@ export default function Home() {
       'https://quran.ppqita.my.id/api/quran?listSurah=true&token=TADABBUR_EMAILKU'
     )
       .then((response) => response.json())
-      .then((data) => {
-        setSurahs(data.data);
+      .then((result) => {
+        console.log('isi result adalah: ', result);
+        setSurahs(result.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -50,3 +53,4 @@ export default function Home() {
     </div>
   );
 }
+
