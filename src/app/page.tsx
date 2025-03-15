@@ -36,21 +36,25 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Daftar Surah</h1>
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">📖 Daftar Surah</h1>
+
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-center text-gray-400">Loading...</p>
       ) : (
-        <ul className="list-disc pl-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {surahs.map((surah) => (
-            <li key={surah.nomor} className="mb-2">
-              <span className="font-semibold">{surah.nama_latin}</span> -{' '}
-              {surah.arti} ({surah.jumlah_ayat} ayat)
-            </li>
+            <div
+              key={surah.nomor}
+              className="bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-700"
+            >
+              <h2 className="text-xl font-semibold">{surah.nama_latin} ({surah.nama})</h2>
+              <p className="text-gray-400 italic">{surah.arti}</p>
+              <p className="mt-2 text-gray-300">📜 {surah.jumlah_ayat} Ayat</p>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
 }
-
