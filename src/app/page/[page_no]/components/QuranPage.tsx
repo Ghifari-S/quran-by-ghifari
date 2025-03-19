@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchData = async () => {
       try {

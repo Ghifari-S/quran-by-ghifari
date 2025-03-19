@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface Surah {
@@ -14,44 +15,50 @@ interface Surah {
 }
 
 export default function Home() {
-  console.log('run home');
-
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(
       'https://quran.ppqita.my.id/api/quran?listSurah=true&token=TADABBUR_EMAILKU'
     )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log('isi result adalah: ', result);
-        setSurahs(result.data);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Gagal mengambil data');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSurahs(data.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        setError(error.message);
         setLoading(false);
       });
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">📖 Daftar Surah</h1>
+    <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center p-6">
+      <h1 className="text-3xl font-bold mb-6">📖 Daftar Surah</h1>
 
-      {loading ? (
-        <p className="text-center text-gray-400">Loading...</p>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {loading && <p className="text-gray-400">Loading...</p>}
+      {error && <p className="text-red-500">❌ {error}</p>}
+
+      {!loading && !error && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-4xl">
           {surahs.map((surah) => (
-            <div
-              key={surah.nomor}
-              className="bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-700"
-            >
-              <h2 className="text-xl font-semibold">{surah.nama_latin} ({surah.nama})</h2>
-              <p className="text-gray-400 italic">{surah.arti}</p>
-              <p className="mt-2 text-gray-300">📜 {surah.jumlah_ayat} Ayat</p>
-            </div>
+            <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
+              <div className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition cursor-pointer">
+                <span className="text-xl font-bold block">{surah.nama}</span>
+                <span className="text-lg text-gray-300 block">{surah.nama_latin}</span>
+                <div className="flex flex-row items-center gap-2 mt-2">
+                  <span className="text-md text-gray-400">{surah.arti}</span>
+                  <span className="text-md text-gray-500">(Surat ke-{surah.nomor})</span>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       )}
