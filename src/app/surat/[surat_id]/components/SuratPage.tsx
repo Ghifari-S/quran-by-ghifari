@@ -50,6 +50,10 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
           </p>
         </div>
 
+        <div className="text-center mb-6">
+          <p className="text-4xl font-bold text-gray-100"></p>
+        </div>
+
         {/* Daftar Ayat */}
         <div className="space-y-4">
           {data.data.map((item: any) => (
@@ -63,9 +67,9 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
               </p>
 
               {/* Latin & Terjemahan */}
-              <p className="text-sm italic text-gray-400 mt-2">
+              {/* <p className="text-sm italic text-gray-400 mt-2">
                 {item.ayat.latin}
-              </p>
+              </p> */}
               <p className="text-base text-gray-300 mt-2">
                 {item.ayat.translation}
               </p>
