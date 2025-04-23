@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import localFont from "next/font/local";
+
+const lpmqFont = localFont({
+  src: "../../font/LPMQ IsepMisbah.ttf",
+  variable: "--font-lpmq",
+});
 
 interface Surah {
   nomor: number;
@@ -21,11 +27,11 @@ export default function Home() {
 
   useEffect(() => {
     fetch(
-      'https://quran.ppqita.my.id/api/quran?listSurah=true&token=TADABBUR_EMAILKU'
+      "https://quran.ppqita.my.id/api/quran?listSurah=true&token=TADABBUR_EMAILKU"
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Gagal mengambil data');
+          throw new Error("Gagal mengambil data");
         }
         return response.json();
       })
@@ -51,12 +57,20 @@ export default function Home() {
           {surahs.map((surah) => (
             <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
               <div className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition cursor-pointer">
-                <span className="text-xl font-bold block">{surah.nama}</span>
-                <span className="text-lg text-gray-300 block">{surah.nama_latin}</span>
                 <div className="flex flex-row items-center gap-2 mt-2">
-                  <span className="text-md text-gray-400">{surah.arti}</span>
-                  <span className="text-md text-gray-500">(Surat ke-{surah.nomor})</span>
+                  <span className="text-xl font-bold block">
+                    {surah.nomor}.
+                  </span>
+                  <span
+                    className={`text-xl font-bold block ${lpmqFont.className}`}
+                  >
+                    {surah.nama}
+                  </span>
                 </div>
+                <span className="text-lg text-gray-300 block">
+                  {surah.nama_latin}
+                </span>
+                <span className="text-md text-gray-400">{surah.arti}</span>
               </div>
             </Link>
           ))}

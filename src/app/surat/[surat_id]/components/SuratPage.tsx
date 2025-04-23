@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import localFont from 'next/font/local';
 
+const  lqmpFont = localFont({
+  src: '../../../../../font/LPMQ IsepMisbah.ttf',
+  variable: '--font-lpmq'
+})
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,7 +67,7 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
               className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow-lg"
             >
               {/* Ayat dalam Bahasa Arab */}
-              <p className="text-right text-3xl font-semibold text-gray-100 leading-relaxed">
+              <p className={`text-right text-3xl font-semibold text-gray-100 leading-relaxed ${lqmpFont.className}`}>
                 {item.ayat.arab}
               </p>
 
