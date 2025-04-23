@@ -1,9 +1,9 @@
 import QuranPage from './components/QuranPage';
 
 const Page = async ({ params }: any) => {
-  const { surat_id } = await params;
+  const { page_no } = await params;
 
-  return <QuranPage surat_id={surat_id} />;
+  return <QuranPage surat_id={page_no} />;
 };
 
 export default Page;

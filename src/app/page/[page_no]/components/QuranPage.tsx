@@ -12,12 +12,13 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+ 
   useEffect(() => {
+    console.log(` info ${surat_id}`)
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://quran.ppqita.my.id/api/quran?page=${surat_id}&token=TADABBUR_EMAILKU`
+          `https://quran.ppqita.my.id/api/quran?mushafPage=${surat_id}&token=TADABBUR_EMAILKU`
         );
         if (!response.ok) {
           throw new Error('Gagal mengambil data');
