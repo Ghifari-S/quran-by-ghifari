@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
-import { addData, getDataById } from '@/lib/db-api';
+import { addData, getDataById } from "@/lib/db-api";
 
 const lpmqFont = localFont({
   src: "../../../../../font/LPMQ IsepMisbah.ttf",
@@ -54,7 +54,6 @@ type MapAyat = Record<string, Ayat[]>;
 const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
 
-
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -64,20 +63,25 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
     console.log(` info ${surat_id}`);
     const fetchData = async () => {
       try {
+        let result = await getDataById(surat_id);
 
-        let result = await getDataById(surat_id)
+        if (!result || !result.data) {
+          const response = await fetch(
+            `https://quran.ppqita.my.id/api/quran?mushafPage=${surat_id}&token=TADABBUR_EMAILKU`
+          );
+          const resData: ApiResponse = await response.json();
+          result = { id: surat_id, data: resData.data };
 
-        const response = await fetch(
-          `https://quran.ppqita.my.id/api/quran?mushafPage=${surat_id}&token=TADABBUR_EMAILKU`
-        );
-
-
-
-        
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data");
+          // simpan data di indexdb
+          // await addData(result);
         }
-     
+
+        result.data.forEach(({ surah, ayat }: { surah: Surah; ayat: Ayat }) => {
+          const surahName = surah.nama_latin;
+          
+          // console.log(ayat)
+        });
+
         setData(result);
       } catch (error: any) {
         setError(error.message);
