@@ -9,6 +9,7 @@ const lpmqFont = localFont({
   variable: "--font-lpmq",
 });
 
+// struktur untuk surah
 interface Surah {
   nomor: number;
   nama: string;
@@ -16,6 +17,7 @@ interface Surah {
   jumlah_ayat: number;
 }
 
+// struktur untuk ayat
 interface Ayat {
   number: {
     inQuran: number;
@@ -48,17 +50,32 @@ interface ApiResponse {
 type MapSurat = Record<string, Surah>;
 type MapAyat = Record<string, Ayat[]>;
 
+// Inisialisasi Record
 const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
+
+// array angka arab
+const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+
+// array angka terjemahan
+
+
+// fungsi convert angka biasa ke angka arab
+function toArabicNumber(num: number) {
+  return num
+    .toString()
+    .split("")
+    .map((digit) => arabicNumbers[parseInt(digit)])
+    .join("");
+}
 
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mapSuratUpdate, setMapSuratUpdate] = useState<MapSurat>({});
-  const [mapAyatUpdate, setMapAyatUpdate] = useState<MapAyat>({});
 
   useEffect(() => {
+    console.log(` info ${surat_id}`);
     const fetchData = async () => {
       try {
         let result = await getDataById(surat_id);
@@ -70,7 +87,8 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
           const resData: ApiResponse = await response.json();
           result = { id: surat_id, data: resData.data };
 
-          // await addData(result); // kalau mau simpan
+          // simpan data di indexdb
+          // await addData(result);
         }
 
         result.data.forEach(({ surah, ayat }: { surah: Surah; ayat: Ayat }) => {
@@ -87,8 +105,6 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
         });
 
         setData(result);
-        setMapSuratUpdate({ ...mapSurat });
-        setMapAyatUpdate({ ...mapAyat });
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -105,12 +121,10 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && data && (
-        <div className="w-full max-w-4xl space-y-6">
-          {Object.entries(mapSuratUpdate).map(([slug, surah]) => (
-            <div
-              key={slug}
-              className="bg-gray-800 p-6 rounded-lg shadow-lg "
-            >
+        <div className="w-full max-w-4xl space-y-8">
+          {/* Loop per Surat */}
+          {Object.entries(mapSurat).map(([slug, surah]) => (
+            <div key={slug} className="w-full">
               <h1 className="text-3xl font-bold mb-2 text-center">
                 📖 Surah {surah.nama_latin}
               </h1>
@@ -118,21 +132,26 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
                 Total Ayat: {surah.jumlah_ayat}
               </p>
 
+              {/* Loop per Ayat */}
               <div className="space-y-4">
-                {mapAyatUpdate[slug].map((ayat) => (
+                {mapAyat[slug].map((ayat) => (
                   <div
                     key={ayat.number.inQuran}
-                    className="bg-gray-700 p-4 rounded-lg"
+                    className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
                   >
-                    <p
-                      className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
-                    >
-                      {ayat.arab}
+                    {ayat.number.inSurah == 1 && (<div> bismillah</div>)}
+                    <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
+                      <span className="leading-14">{ayat.arab}</span>
+                      <span className="inline items-center justify-center w-6 h-6 mr-3 border-gray-400">
+                        {toArabicNumber(ayat.number.inSurah)}
+                      </span>
+                      
                     </p>
-                    <p className="text-sm italic text-gray-300 mb-1">
+                    {/* <p className="text-sm italic text-gray-300 mb-1">
                       {ayat.latin}
-                    </p>
+                    </p> */}
                     <p className="text-base text-gray-200">
+                      <span>{ayat.number.inSurah}. </span>
                       {ayat.translation}
                     </p>
                   </div>

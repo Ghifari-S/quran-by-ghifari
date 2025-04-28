@@ -51,6 +51,7 @@ export default function Home() {
 
       {loading && <p className="text-gray-400">Loading...</p>}
       {error && <p className="text-red-500">❌ {error}</p>}
+      <Link href="./setoran/input-nama-santri">p</Link>
 
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-4xl">
@@ -68,7 +69,7 @@ export default function Home() {
                   </span>
                 </div>
                 <span className="text-lg text-gray-300 block">
-                  {surah.nama_latin}
+                 {surah.nama_latin}
                 </span>
                 <span className="text-md text-gray-400">{surah.arti}</span>
               </div>
