@@ -42,13 +42,6 @@ const QuranJuz = ({ juz_id }: { juz_id: string }) => {
 
       {!loading && !error && data && (
         <div className="w-full max-w-4xl">
-          {/* <h1 className="text-3xl font-bold mb-2 text-center">
-            📖 Surah {data.data[0]?.surah.nama_latin}
-          </h1>
-          <p className="text-center text-gray-400 mb-6">
-            Total Ayat: {data.data[0]?.surah.jumlah_ayat}
-          </p> */}
-
           <div className="space-y-4">
             {data.data.map((item: any) => (
               <div
@@ -56,14 +49,19 @@ const QuranJuz = ({ juz_id }: { juz_id: string }) => {
                 className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
               >
                 {item.ayat.number.inSurah == 1 && (
-                  <div className="m-8 text-center font-bold text-2xl">{item.surah.nama_latin}</div>
+                  <div className="m-8 text-center font-bold text-2xl">
+                    {item.surah.nama_latin}
+                    <div className="text-cent pt-2 text-lg">
+                      Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+                    </div>
+                  </div>
                 )}
 
                 {item.ayat.number.inSurah == 1 &&
                   item.surah.nomor != 1 &&
                   item.surah.nomor != 9 && (
                     <div
-                      className={`${lpmqFont.className} flex justify-center`}
+                      className={`${lpmqFont.className} flex justify-center font-bold pb-7 text-3xl`}
                     >
                       بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
                     </div>

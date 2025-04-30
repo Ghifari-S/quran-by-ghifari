@@ -42,24 +42,41 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
 
       {!loading && !error && data && (
         <div className="w-full max-w-4xl">
-          <h1 className="text-3xl font-bold mb-2 text-center">
-            📖 Surah {data.data[0]?.surah.nama_latin}
-          </h1>
-          <p className="text-center text-gray-400 mb-6">
-            Total Ayat: {data.data[0]?.surah.jumlah_ayat}
-          </p>
-
           <div className="space-y-4">
             {data.data.map((item: any) => (
               <div
                 key={item.ayat.number.inQuran}
                 className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
               >
-                <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
+                {item.ayat.number.inSurah == 1 && (
+                  <div className="m-8 text-center font-bold text-2xl">
+                    {item.surah.nama_latin}
+                    <div className="text-cent pt-2 text-lg">
+                      Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+                    </div>
+                  </div>
+                )}
+
+                {item.ayat.number.inSurah == 1 &&
+                  item.surah.nomor != 1 &&
+                  item.surah.nomor != 9 && (
+                    <div
+                      className={`${lpmqFont.className} flex justify-center font-bold pb-7 text-3xl`}
+                    >
+                      بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+                    </div>
+                  )}
+                <p
+                  className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
+                >
                   {item.ayat.arab}
                 </p>
-                <p className="text-sm italic text-gray-300 mb-1">{item.ayat.latin}</p>
-                <p className="text-base text-gray-200">{item.ayat.translation}</p>
+                <p className="text-sm italic text-gray-300 mb-1">
+                  {item.ayat.latin}
+                </p>
+                <p className="text-base text-gray-200">
+                  {item.ayat.number.inSurah}. {item.ayat.translation}
+                </p>
               </div>
             ))}
           </div>
