@@ -48,8 +48,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 items-center ">
       <div className="text-center ">
-      {loading && <p className="text-gray-400">Loading...</p>}
-      {error && <p className="text-red-500">❌ {error}</p>}
+        {loading && <p className="text-gray-400">Loading...</p>}
+        {error && <p className="text-red-500">❌ {error}</p>}
       </div>
 
       {!loading && !error && (
@@ -100,29 +100,28 @@ export default function Home() {
             📖 Daftar Surah
           </h1>
           <div className="flex flex-col items-center p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-4xl ">
-            {surahs.map((surah) => (
-              <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition cursor-pointer">
-                  <div className="flex flex-row items-center gap-2 mt-2">
-                    <span className="text-xl font-bold block">
-                      {surah.nomor}.
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-4xl ">
+              {surahs.map((surah) => (
+                <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
+                  <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition cursor-pointer">
+                    <div className="flex flex-row items-center gap-2 mt-2">
+                      <span className="text-xl font-bold block">
+                        {surah.nomor}.
+                      </span>
+                      <span
+                        className={`text-xl font-bold block ${lpmqFont.className}`}
+                      >
+                        {surah.nama}
+                      </span>
+                    </div>
+                    <span className="text-lg text-gray-300 block">
+                      {surah.nama_latin}
                     </span>
-                    <span
-                      className={`text-xl font-bold block ${lpmqFont.className}`}
-                    >
-                      {surah.nama}
-                    </span>
+                    <span className="text-md text-gray-400">{surah.arti}</span>
                   </div>
-                  <span className="text-lg text-gray-300 block">
-                    {surah.nama_latin}
-                  </span>
-                  <span className="text-md text-gray-400">{surah.arti}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       )}
