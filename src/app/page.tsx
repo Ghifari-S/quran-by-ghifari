@@ -46,9 +46,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 ">
+    <div className="min-h-screen bg-gray-900 text-gray-200 items-center ">
+      <div className="text-center ">
       {loading && <p className="text-gray-400">Loading...</p>}
       {error && <p className="text-red-500">❌ {error}</p>}
+      </div>
 
       {!loading && !error && (
         <div className="w-full">
