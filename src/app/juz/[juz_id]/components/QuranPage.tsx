@@ -122,9 +122,9 @@ export default function QuranPage({ juz_id }: QuranPageProps) {
             {group.ayahs.map((ayah, index) => (
               <div
                 key={index}
-                className="bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-700 transition"
+                className="bg-gray-800 p-4 rounded-lg shadow-md mb-2 hover:bg-gray-700 transition"
               >
-                <p className={`text-2xl text-right font-bold mb-2 leading-loose ${lpmqFont.className}`}>
+                <p className={`text-2xl text-right font-bold leading-loose ${lpmqFont.className}`}>
                   {ayah.text}
                   <span className="inline-block text-base ml-2 border border-gray-400 px-2 rounded-full">
                     {ayah.number}
