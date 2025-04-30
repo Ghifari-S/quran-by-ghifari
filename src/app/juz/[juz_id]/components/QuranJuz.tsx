@@ -67,7 +67,7 @@ const QuranJuz = ({ juz_id }: { juz_id: string }) => {
                     </div>
                   )}
                 <p
-                  className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
+                  className={`text-2xl text-right font-bold mb-5 leading-16 ${lpmqFont.className}`}
                 >
                   {item.ayat.arab}
                 </p>
