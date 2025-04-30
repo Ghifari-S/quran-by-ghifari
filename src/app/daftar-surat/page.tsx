@@ -47,20 +47,35 @@ export default function Home() {
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-6xl">
-          {surahs.map((surah) => (
-            <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
-              <div className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition cursor-pointer">
-                <span className="text-xl font-bold block">{surah.nama}</span>
-                <span className="text-lg block">{surah.nama_latin}</span>
-                <div className="flex flex-row items-center gap-2 mt-2">
-                  <span className="text-md ">{surah.arti}</span>
-                  <span className="text-md text-gray-400">(Surat ke-{surah.nomor})</span>
-                </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-4">
+      {surahs.map((surah) => (
+        <Link href={`surat/${surah.nomor}`} key={surah.nomor}>
+          <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-700 transition-all duration-300 cursor-pointer h-full flex flex-col">
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="text-2xl font-bold text-white">{surah.nama}</h3>
+                <p className="text-lg text-gray-200">{surah.nama_latin}</p>
               </div>
-            </Link>
-          ))}
-        </div>
+              <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">
+                {surah.nomor}
+              </span>
+            </div>
+            
+            <div className="mt-auto pt-4 border-t border-gray-700">
+              <p className="text-gray-300">
+                {surah.arti} 
+                <span className="text-gray-400 text-sm ml-2">
+                  • {surah.jumlah_ayat} ayat
+                </span>
+              </p>
+              <p className="text-gray-500 text-sm mt-2">
+                {surah.tempat_turun === 'mekah' ? 'Makkiyah' : 'Madaniyah'}
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
       )}
     </div>
   );
