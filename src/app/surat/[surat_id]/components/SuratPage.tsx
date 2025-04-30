@@ -10,6 +10,7 @@ const  lqmpFont = localFont({
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,55 +36,56 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
         <p>Loading...</p>
       </div>
     );
-  if (!data)
+
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-red-400">
-        <p>❌ Data tidak ditemukan</p>
+      <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center p-6">
+        {loading && <p className="text-gray-400">Loading...</p>}
+        {error && <p className="text-red-500">❌ {error}</p>}
+  
+        {!loading && !error && data && (
+          <div className="w-full max-w-4xl">
+            <div className="space-y-4">
+              {data.data.map((item: any) => (
+                <div
+                  key={item.ayat.number.inQuran}
+                  className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+                >
+                  {item.ayat.number.inSurah == 1 && (
+                    <div className="m-8 text-center font-bold text-2xl">
+                      {item.surah.nama_latin}
+                      <div className="text-cent pt-2 text-lg">
+                        Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+                      </div>
+                    </div>
+                  )}
+  
+                  {item.ayat.number.inSurah == 1 &&
+                    item.surah.nomor != 1 &&
+                    item.surah.nomor != 9 && (
+                      <div
+                        className={`${lqmpFont.className} flex justify-center font-bold pb-7 text-3xl`}
+                      >
+                        بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+                      </div>
+                    )}
+                  <p
+                    className={`text-2xl text-right font-bold mb-5 leading-16 ${lqmpFont.className}`}
+                  >
+                    {item.ayat.arab}
+                  </p>
+                  <p className="text-sm italic text-gray-300 mb-3">
+                    {item.ayat.latin}
+                  </p>
+                  <p className="text-base text-gray-200 pb-4">
+                    {item.ayat.number.inSurah}. {item.ayat.translation}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
-      <div className="max-w-3xl mx-auto">
-        {/* Header Surah */}
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-gray-100">
-            📖 {data.data[0]?.surah.nama_latin}
-          </h1>
-          <p className="text-lg text-gray-400">
-            Total Ayat: {data.data[0]?.surah.jumlah_ayat}
-          </p>
-        </div>
-
-        <div className="text-center mb-6">
-          <p className="text-4xl font-bold text-gray-100"></p>
-        </div>
-
-        {/* Daftar Ayat */}
-        <div className="space-y-4">
-          {data.data.map((item: any) => (
-            <div
-              key={item.ayat.number.inQuran}
-              className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow-lg"
-            >
-              {/* Ayat dalam Bahasa Arab */}
-              <p className={`text-right text-3xl font-semibold text-gray-100 leading-relaxed ${lqmpFont.className}`}>
-                {item.ayat.arab}
-              </p>
-
-              {/* Latin & Terjemahan */}
-              {/* <p className="text-sm italic text-gray-400 mt-2">
-                {item.ayat.latin}
-              </p> */}
-              <p className="text-base text-gray-300 mt-2">
-                {item.ayat.translation}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 };
 
 export default SuratPage;

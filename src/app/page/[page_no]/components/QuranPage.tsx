@@ -121,44 +121,28 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && data && (
-        <div className="w-full max-w-4xl space-y-8">
-          {/* Loop per Surat */}
-          {Object.entries(mapSurat).map(([slug, surah]) => (
-            <div key={slug} className="w-full">
-              <h1 className="text-3xl font-bold mb-2 text-center">
-                📖 Surah {surah.nama_latin}
-              </h1>
-              <p className="text-center text-gray-400 mb-6">
-                Total Ayat: {surah.jumlah_ayat}
-              </p>
+        <div className="w-full max-w-4xl">
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            📖 Surah {data.data[0]?.surah.nama_latin}
+          </h1>
+          <p className="text-center text-gray-400 mb-6">
+            Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+          </p>
 
-              {/* Loop per Ayat */}
-              <div className="space-y-4">
-                {mapAyat[slug].map((ayat) => (
-                  <div
-                    key={ayat.number.inQuran}
-                    className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
-                  >
-                    {ayat.number.inSurah == 1 && (<div> bismillah</div>)}
-                    <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
-                      <span className="leading-14">{ayat.arab}</span>
-                      <span className="inline items-center justify-center w-6 h-6 mr-3 border-gray-400">
-                        {toArabicNumber(ayat.number.inSurah)}
-                      </span>
-                      
-                    </p>
-                    {/* <p className="text-sm italic text-gray-300 mb-1">
-                      {ayat.latin}
-                    </p> */}
-                    <p className="text-base text-gray-200">
-                      <span>{ayat.number.inSurah}. </span>
-                      {ayat.translation}
-                    </p>
-                  </div>
-                ))}
+          <div className="space-y-4">
+            {data.data.map((item: any) => (
+              <div
+                key={item.ayat.number.inQuran}
+                className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+              >
+                <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
+                  {item.ayat.arab}
+                </p>
+                <p className="text-sm italic text-gray-300 mb-1">{item.ayat.latin}</p>
+                <p className="text-base text-gray-200">{item.ayat.translation}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
