@@ -116,52 +116,54 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
   }, [surat_id]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center ">
       {loading && <p className="text-gray-400">Loading...</p>}
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && data && (
-        <div>
-          <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-            {/* Logo atau Nama Aplikasi */}
-            <div className="text-2xl font-bold text-white">
-              📖 Tadabbur Quran
-            </div>
+        <div className="w-full flex flex-col items-center">
+          <header className="w-full bg-gray-800 shadow-md mb-8">
+            <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+              {/* Logo atau Nama Aplikasi */}
+              <div className="text-2xl font-bold text-white">
+                📖 Tadabbur Quran
+              </div>
 
-            {/* Menu Navigasi */}
-            <nav className="flex space-x-6">
-              <Link
-                href="/setoran/input-nama-santri"
-                className="text-gray-300 hover:text-white transition"
-              >
-                Tambah Santri
-              </Link>
-              <Link
-                href="/sholat"
-                className="text-gray-300 hover:text-white transition"
-              >
-                Jadwal Sholat
-              </Link>
-              <Link
-                href="/juz"
-                className="text-gray-300 hover:text-white transition"
-              >
-                Pilih Juz
-              </Link>
-              <Link
-                href="/pilih-surat"
-                className="text-gray-300 hover:text-white transition"
-              >
-                Pilih Surat
-              </Link>
-              <Link
-                href="/tentang-kami"
-                className="text-gray-300 hover:text-white transition"
-              >
-                Tentang Kami
-              </Link>
-            </nav>
-          </div>
+              {/* Menu Navigasi */}
+              <nav className="flex space-x-6">
+                <Link
+                  href="/setoran/input-nama-santri"
+                  className="text-gray-300 hover:text-white transition"
+                >
+                  Tambah Santri
+                </Link>
+                <Link
+                  href="/sholat"
+                  className="text-gray-300 hover:text-white transition"
+                >
+                  Jadwal Sholat
+                </Link>
+                <Link
+                  href="/juz"
+                  className="text-gray-300 hover:text-white transition"
+                >
+                  Pilih Juz
+                </Link>
+                <Link
+                  href="/pilih-surat"
+                  className="text-gray-300 hover:text-white transition"
+                >
+                  Pilih Surat
+                </Link>
+                <Link
+                  href="/tentang-kami"
+                  className="text-gray-300 hover:text-white transition"
+                >
+                  Tentang Kami
+                </Link>
+              </nav>
+            </div>
+          </header>
           <div className="w-full max-w-4xl">
             <h1 className="text-3xl font-bold mb-2 text-center">
               📖 Surah {data.data[0]?.surah.nama_latin}
