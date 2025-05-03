@@ -56,18 +56,20 @@ const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
 
 // array angka arab
-const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+function toArabicNumber(num: number): string {
+  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  return num
+    .toString()
+    .split("")
+    .map((d) => arabicDigits[parseInt(d)])
+    .join("");
+}
 
 // array angka terjemahan
 
 // fungsi convert angka biasa ke angka arab
-function toArabicNumber(num: number) {
-  return num
-    .toString()
-    .split("")
-    .map((digit) => arabicNumbers[parseInt(digit)])
-    .join("");
-}
+
+
 
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
