@@ -30,8 +30,11 @@ interface QuranPageProps {
   juz_id: string;
 }
 
-export default function QuranPage({ juz_id }: QuranPageProps) {
+export default function QuranPage() {
   const router = useRouter();
+  const params = useParams();
+  const juz_id:any = params.juz_id; 
+
   const [juzData, setJuzData] = useState<JuzData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
