@@ -155,7 +155,7 @@ export default function QuranPage({ juz_id }: QuranPageProps) {
                 <p
                   className={`text-2xl text-right font-bold leading-loose ${lpmqFont.className}`}
                 >
-                  <span className="inline-block text-3xl text-white mr-3 align-middle ">
+                  <span className="inline-block text-3xl text-white mr-3  ">
                     {toArabicNumber(ayah.number)}
                   </span>
                   {ayah.text}
