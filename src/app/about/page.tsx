@@ -51,7 +51,7 @@ const Nama = () => {
             </p>
             <div className="flex items-center text-amber-700">
               <FaEnvelope className="mr-2" />
-              <span>Dan jika Anda memiliki saran dan masukan Anda bisa mengrimkannya ke <a href="mailto:contact@quranapp.com" className="font-medium underline">contact@quranapp.com</a></span>
+              <span>Dan jika Anda memiliki saran dan masukan Anda bisa mengrimkannya ke <a href="mailto:ghifaripooh.com" className="font-medium underline">ghifaripooh@gmail.com</a></span>
             </div>
           </div>
         </div>
