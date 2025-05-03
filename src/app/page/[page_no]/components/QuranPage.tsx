@@ -1,5 +1,6 @@
 "use client";
 
+import {openDB, IDBPDatabase } from "idb";
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { addData, getDataById } from "@/lib/db-api";
