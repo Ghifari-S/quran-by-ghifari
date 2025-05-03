@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { json } from "stream/consumers";
+import { get } from "http";
+import { jsxs } from "react/jsx-runtime";
 
 interface Santri {
   nama: string;
@@ -19,10 +22,18 @@ export default function DaftarSantri() {
     if (!nama.trim()) return;
 
     setSantris([...santris, { nama, sekolah }]);
+    localStorage.setItem("santri", JSON.stringify([...santris, { nama, sekolah }]))
     setNama("");
     setSekolah("");
     setShowForm(false);
   };
+  useEffect(()=> {
+    const getData = localStorage.getItem("santri")
+
+    if(getData){
+      setSantris(JSON.parse(getData))
+    }
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
@@ -37,7 +48,7 @@ export default function DaftarSantri() {
             <Link href="/solat" className="text-gray-300 hover:text-white">
               Jadwal Sholat
             </Link>
-            <Link href="/tentang-kami" className="text-gray-300 hover:text-white">
+            <Link href="/about" className="text-gray-300 hover:text-white">
               Tentang Kami
             </Link>
           </nav>
