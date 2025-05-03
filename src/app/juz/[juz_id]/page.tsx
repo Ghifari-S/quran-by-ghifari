@@ -134,7 +134,7 @@ export default function QuranPage() {
 
   return (
     <div>
-      <header className="w-full bg-gray-800 shadow-md mb-8">
+      <header className="w-full bg-gray-800 shadow-md ">
         <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
           {/* Logo atau Nama Aplikasi */}
           <div className="text-2xl font-bold text-white">📖 Tadabbur Quran</div>
