@@ -79,7 +79,7 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
             Jadwal Sholat
           </Link>
           <Link
-            href="/tentang-kami"
+            href="/about"
             className="text-gray-300 hover:text-white transition"
           >
             Tentang Kami

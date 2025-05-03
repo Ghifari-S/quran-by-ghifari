@@ -1,8 +1,10 @@
 "use client";
 
+import {openDB, IDBPDatabase } from "idb";
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { addData, getDataById } from "@/lib/db-api";
+import Link from "next/link";
 
 const lpmqFont = localFont({
   src: "../../../../../../font/LPMQ IsepMisbah.ttf",
@@ -37,6 +39,16 @@ interface Ayat {
     };
   };
   latin: string;
+  text: string;
+  surah: {
+    number: number;
+    name: string;
+  };
+}
+
+interface pageData {
+  page: number;
+  ayats: Ayat[];
 }
 
 interface ApiResponse {
@@ -54,20 +66,9 @@ type MapAyat = Record<string, Ayat[]>;
 const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
 
-// array angka arab
-const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-
 // array angka terjemahan
 
-
 // fungsi convert angka biasa ke angka arab
-function toArabicNumber(num: number) {
-  return num
-    .toString()
-    .split("")
-    .map((digit) => arabicNumbers[parseInt(digit)])
-    .join("");
-}
 
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
@@ -113,52 +114,73 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
     };
 
     fetchData();
+    function toArabicNumber(num: number): string {
+      const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+      return num
+        .toString()
+        .split("")
+        .map((d) => arabicDigits[parseInt(d)])
+        .join("");
+    }
+
+    const groupAyahsBySurah = (ayahs: Ayat[]) => {
+      const grouped: {
+        surah: { number: number; name: string };
+        ayahs: Ayat[];
+      }[] = [];
+      let currentSurah = null;
+
+      for (const ayah of ayahs) {
+        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
+          currentSurah = ayah.surah;
+          grouped.push({ surah: currentSurah, ayahs: [ayah] });
+        } else {
+          grouped[grouped.length - 1].ayahs.push(ayah);
+        }
+      }
+
+      return grouped;
+    };
   }, [surat_id]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center ">
       {loading && <p className="text-gray-400">Loading...</p>}
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && data && (
-        <div className="w-full max-w-4xl space-y-8">
-          {/* Loop per Surat */}
-          {Object.entries(mapSurat).map(([slug, surah]) => (
-            <div key={slug} className="w-full">
-              <h1 className="text-3xl font-bold mb-2 text-center">
-                📖 Surah {surah.nama_latin}
-              </h1>
-              <p className="text-center text-gray-400 mb-6">
-                Total Ayat: {surah.jumlah_ayat}
-              </p>
+        <div className="w-full flex flex-col items-center">
 
-              {/* Loop per Ayat */}
-              <div className="space-y-4">
-                {mapAyat[slug].map((ayat) => (
-                  <div
-                    key={ayat.number.inQuran}
-                    className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+          <div className="w-full max-w-4xl">
+            <h1 className="text-3xl font-bold mb-2 text-center">
+              📖 Surah {data.data[0]?.surah.nama_latin}
+            </h1>
+            <p className="text-center text-gray-400 mb-6">
+              Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+            </p>
+
+            <div className="space-y-4">
+              {data.data.map((item: { surah: Surah; ayat: Ayat }) => (
+                <div
+                  key={item.ayat.number.inQuran}
+                  className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+                >
+                  <p
+                    className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
                   >
-                    {ayat.number.inSurah == 1 && (<div> bismillah</div>)}
-                    <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
-                      <span className="leading-14">{ayat.arab}</span>
-                      <span className="inline items-center justify-center w-6 h-6 mr-3 border-gray-400">
-                        {toArabicNumber(ayat.number.inSurah)}
-                      </span>
-                      
-                    </p>
-                    {/* <p className="text-sm italic text-gray-300 mb-1">
-                      {ayat.latin}
-                    </p> */}
-                    <p className="text-base text-gray-200">
-                      <span>{ayat.number.inSurah}. </span>
-                      {ayat.translation}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                    {item.ayat.arab}
+                  </p>
+                  {/* <p className="text-sm italic text-gray-300 mb-1">
+                    {item.ayat.latin}
+                  </p> */}
+                  <p className="text-base text-gray-200">
+                    <span>{item.ayat.number.inSurah}. </span>
+                    {item.ayat.translation}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       )}
     </div>

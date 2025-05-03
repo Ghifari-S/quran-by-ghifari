@@ -39,7 +39,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/tentang-kami"
+              href="/about"
               className="text-gray-300 hover:text-white transition"
             >
               Tentang Kami

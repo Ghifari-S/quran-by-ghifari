@@ -1,6 +1,6 @@
 "use client";
 
-import {openDB, IDBPDatabase } from "idb";
+import { openDB, IDBPDatabase } from "idb";
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { addData, getDataById } from "@/lib/db-api";
@@ -11,7 +11,6 @@ const lpmqFont = localFont({
   variable: "--font-lpmq",
 });
 
-// struktur untuk surah
 interface Surah {
   nomor: number;
   nama: string;
@@ -19,7 +18,6 @@ interface Surah {
   jumlah_ayat: number;
 }
 
-// struktur untuk ayat
 interface Ayat {
   number: {
     inQuran: number;
@@ -46,11 +44,6 @@ interface Ayat {
   };
 }
 
-interface pageData {
-  page: number;
-  ayats: Ayat[];
-}
-
 interface ApiResponse {
   status: string;
   data: {
@@ -62,13 +55,18 @@ interface ApiResponse {
 type MapSurat = Record<string, Surah>;
 type MapAyat = Record<string, Ayat[]>;
 
-// Inisialisasi Record
 const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
 
-// array angka terjemahan
-
-// fungsi convert angka biasa ke angka arab
+// 🔢 Fungsi konversi angka ke angka Arab
+const toArabicNumber = (num: number): string => {
+  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  return num
+    .toString()
+    .split("")
+    .map((d) => arabicDigits[parseInt(d)])
+    .join("");
+};
 
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
@@ -76,7 +74,6 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log(` info ${surat_id}`);
     const fetchData = async () => {
       try {
         let result = await getDataById(surat_id);
@@ -87,9 +84,6 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
           );
           const resData: ApiResponse = await response.json();
           result = { id: surat_id, data: resData.data };
-
-          // simpan data di indexdb
-          // await addData(result);
         }
 
         result.data.forEach(({ surah, ayat }: { surah: Surah; ayat: Ayat }) => {
@@ -114,33 +108,6 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
     };
 
     fetchData();
-    function toArabicNumber(num: number): string {
-      const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-      return num
-        .toString()
-        .split("")
-        .map((d) => arabicDigits[parseInt(d)])
-        .join("");
-    }
-
-    const groupAyahsBySurah = (ayahs: Ayat[]) => {
-      const grouped: {
-        surah: { number: number; name: string };
-        ayahs: Ayat[];
-      }[] = [];
-      let currentSurah = null;
-
-      for (const ayah of ayahs) {
-        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
-          currentSurah = ayah.surah;
-          grouped.push({ surah: currentSurah, ayahs: [ayah] });
-        } else {
-          grouped[grouped.length - 1].ayahs.push(ayah);
-        }
-      }
-
-      return grouped;
-    };
   }, [surat_id]);
 
   return (
@@ -152,36 +119,22 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
         <div className="w-full flex flex-col items-center">
           <header className="w-full bg-gray-800 shadow-md mb-8">
             <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-              {/* Logo atau Nama Aplikasi */}
               <div className="text-2xl font-bold text-white">
                 📖 Tadabbur Quran
               </div>
 
-              {/* Menu Navigasi */}
               <nav className="flex space-x-6">
                 <Link
-                  href="/setoran/input-nama-santri"
+                  href="/"
                   className="text-gray-300 hover:text-white transition"
                 >
-                  Tambah Santri
+                  Beranda
                 </Link>
                 <Link
                   href="/sholat"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Jadwal Sholat
-                </Link>
-                <Link
-                  href="/juz"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Pilih Juz
-                </Link>
-                <Link
-                  href="/pilih-surat"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Pilih Surat
                 </Link>
                 <Link
                   href="/tentang-kami"
@@ -208,16 +161,15 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
                   className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
                 >
                   <p
-                    className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
+                    className={`text-2xl text-right font-bold mb-2 leading-loose ${lpmqFont.className}`}
                   >
                     {item.ayat.arab}
+                    <span className="mr-3 text-2xl text-white">
+                      ۝{toArabicNumber(item.ayat.number.inSurah)}
+                    </span>
                   </p>
-                  {/* <p className="text-sm italic text-gray-300 mb-1">
-                    {item.ayat.latin}
-                  </p> */}
                   <p className="text-base text-gray-200">
-                    <span>{item.ayat.number.inSurah}. </span>
-                    {item.ayat.translation}
+                    {item.ayat.number.inSurah}. {item.ayat.translation}
                   </p>
                 </div>
               ))}

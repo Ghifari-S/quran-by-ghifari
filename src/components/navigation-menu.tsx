@@ -28,13 +28,7 @@ export default function Navigation() {
             Pilih Juz
           </Link>
           <Link
-            href="/pilih-surat"
-            className="text-gray-300 hover:text-white transition"
-          >
-            Pilih Surat
-          </Link>
-          <Link
-            href="/tentang-kami"
+            href="/about"
             className="text-gray-300 hover:text-white transition"
           >
             Tentang Kami
