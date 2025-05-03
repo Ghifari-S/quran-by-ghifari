@@ -1,9 +1,9 @@
 import { openDB, IDBPDatabase } from "idb";
 
-let DB_NAME: string = "Quran";
-let STORE_NAME = "pages";
-let DB_VERSION = 1;
-let dbInstance: IDBPDatabase<any> | null = null;
+const DB_NAME: string = "Quran";
+const  STORE_NAME = "pages";
+const DB_VERSION = 1;
+let  dbInstance: IDBPDatabase<any> | null = null;
 
 async function initDB(): Promise<IDBPDatabase<any>> {
   if (!dbInstance) {

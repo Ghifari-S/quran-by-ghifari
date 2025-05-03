@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { addData, getDataById } from "@/lib/db-api";
+import Link from "next/link";
 
 const lpmqFont = localFont({
   src: "../../../../../font/LPMQ IsepMisbah.ttf",
@@ -58,7 +59,6 @@ const mapAyat: MapAyat = {};
 const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
 
 // array angka terjemahan
-
 
 // fungsi convert angka biasa ke angka arab
 function toArabicNumber(num: number) {
@@ -121,27 +121,75 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
       {error && <p className="text-red-500">❌ {error}</p>}
 
       {!loading && !error && data && (
-        <div className="w-full max-w-4xl">
-          <h1 className="text-3xl font-bold mb-2 text-center">
-            📖 Surah {data.data[0]?.surah.nama_latin}
-          </h1>
-          <p className="text-center text-gray-400 mb-6">
-            Total Ayat: {data.data[0]?.surah.jumlah_ayat}
-          </p>
+        <div>
+          <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+            {/* Logo atau Nama Aplikasi */}
+            <div className="text-2xl font-bold text-white">
+              📖 Tadabbur Quran
+            </div>
 
-          <div className="space-y-4">
-            {data.data.map((item: any) => (
-              <div
-                key={item.ayat.number.inQuran}
-                className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+            {/* Menu Navigasi */}
+            <nav className="flex space-x-6">
+              <Link
+                href="/setoran/input-nama-santri"
+                className="text-gray-300 hover:text-white transition"
               >
-                <p className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}>
-                  {item.ayat.arab}
-                </p>
-                <p className="text-sm italic text-gray-300 mb-1">{item.ayat.latin}</p>
-                <p className="text-base text-gray-200">{item.ayat.translation}</p>
-              </div>
-            ))}
+                Tambah Santri
+              </Link>
+              <Link
+                href="/sholat"
+                className="text-gray-300 hover:text-white transition"
+              >
+                Jadwal Sholat
+              </Link>
+              <Link
+                href="/juz"
+                className="text-gray-300 hover:text-white transition"
+              >
+                Pilih Juz
+              </Link>
+              <Link
+                href="/pilih-surat"
+                className="text-gray-300 hover:text-white transition"
+              >
+                Pilih Surat
+              </Link>
+              <Link
+                href="/tentang-kami"
+                className="text-gray-300 hover:text-white transition"
+              >
+                Tentang Kami
+              </Link>
+            </nav>
+          </div>
+          <div className="w-full max-w-4xl">
+            <h1 className="text-3xl font-bold mb-2 text-center">
+              📖 Surah {data.data[0]?.surah.nama_latin}
+            </h1>
+            <p className="text-center text-gray-400 mb-6">
+              Total Ayat: {data.data[0]?.surah.jumlah_ayat}
+            </p>
+
+            <div className="space-y-4">
+              {data.data.map((item: any) => (
+                <div
+                  key={item.ayat.number.inQuran}
+                  className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+                >
+                  <p
+                    className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
+                  >
+                    {item.ayat.arab}
+                  </p>
+                  <p className="text-sm italic text-gray-300 mb-1">
+                    {item.ayat.latin}
+                  </p>
+                  <p className="text-base text-gray-200">
+                    {item.ayat.translation}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
