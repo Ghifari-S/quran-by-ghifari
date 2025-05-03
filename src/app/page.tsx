@@ -70,7 +70,7 @@ export default function Home() {
                   Tambah Santri
                 </Link>
                 <Link
-                  href="/sholat"
+                  href="/solat"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Jadwal Sholat

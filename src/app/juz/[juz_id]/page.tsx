@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
+import Link from 'next/link'
 
 const lpmqFont = localFont({
   src: "../../../../font/LPMQ IsepMisbah.ttf",
@@ -129,53 +130,96 @@ export default function QuranPage({ juz_id }: QuranPageProps) {
   const surahGroups = groupAyahsBySurah(juzData.ayahs);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
-      <div className="max-w-4xl mx-auto space-y-10">
-        <h1 className="text-center text-3xl font-bold">📖 Juz {juzData.juz}</h1>
+    <div>
+      <header className="w-full bg-gray-800 shadow-md mb-8">
+        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+          {/* Logo atau Nama Aplikasi */}
+          <div className="text-2xl font-bold text-white">📖 Tadabbur Quran</div>
 
-        {surahGroups.map((group, i) => (
-          <div key={i} className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold">
-                Surah {group.surah.name}
-              </h2>
-              {group.surah.number !== 9 && group.surah.number !== 1 && (
-                <p className={`mt-3 text-2xl ${lpmqFont.className}`}>
-                  بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-                </p>
-              )}
-            </div>
+          {/* Menu Navigasi */}
+          <nav className="flex space-x-6">
+            <Link
+              href="/setoran/input-nama-santri"
+              className="text-gray-300 hover:text-white transition"
+            >
+              Tambah Santri
+            </Link>
+            <Link
+              href="/solat"
+              className="text-gray-300 hover:text-white transition"
+            >
+              Jadwal Sholat
+            </Link>
+            <Link
+              href="/juz"
+              className="text-gray-300 hover:text-white transition"
+            >
+              Pilih Juz
+            </Link>
+            <Link
+              href="/pilih-surat"
+              className="text-gray-300 hover:text-white transition"
+            >
+              Pilih Surat
+            </Link>
+            <Link
+              href="/tentang-kami"
+              className="text-gray-300 hover:text-white transition"
+            >
+              Tentang Kami
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
+        <div className="max-w-4xl mx-auto space-y-10">
+          <h1 className="text-center text-3xl font-bold">
+            📖 Juz {juzData.juz}
+          </h1>
 
-            {group.ayahs.map((ayah, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 p-4 rounded-lg shadow-md mb-2 hover:bg-gray-700 transition"
-              >
-                <div className="flex flex-col justify-center">
-                <p
-                  className={`text-2xl text-right font-bold leading-loose ${lpmqFont.className}`}
-                >
-                  <span className="inline-block text-3xl text-white mr-3  ">
-                    {toArabicNumber(ayah.number)}
-                  </span>
-                  {ayah.text}
-                </p>
-
-                </div>
-
-                {!isReadingMode && (
-                  <>
-                    {/* <p className="text-sm italic text-gray-300">{ayah.latin}</p> */}
-                    <p className="text-base text-gray-200 mt-1">
-                      <span>{ayah.number}. </span>
-                      {ayah.translation}
-                    </p>
-                  </>
+          {surahGroups.map((group, i) => (
+            <div key={i} className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold">
+                  Surah {group.surah.name}
+                </h2>
+                {group.surah.number !== 9 && group.surah.number !== 1 && (
+                  <p className={`mt-3 text-2xl ${lpmqFont.className}`}>
+                    بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+                  </p>
                 )}
               </div>
-            ))}
-          </div>
-        ))}
+
+              {group.ayahs.map((ayah, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-800 p-4 rounded-lg shadow-md mb-2 hover:bg-gray-700 transition"
+                >
+                  <div className="flex flex-col justify-center">
+                    <p
+                      className={`text-2xl text-right font-bold leading-loose ${lpmqFont.className}`}
+                    >
+                      <span className="inline-block text-3xl text-white mr-3  ">
+                        {toArabicNumber(ayah.number)}
+                      </span>
+                      {ayah.text}
+                    </p>
+                  </div>
+
+                  {!isReadingMode && (
+                    <>
+                      {/* <p className="text-sm italic text-gray-300">{ayah.latin}</p> */}
+                      <p className="text-base text-gray-200 mt-1">
+                        <span>{ayah.number}. </span>
+                        {ayah.translation}
+                      </p>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

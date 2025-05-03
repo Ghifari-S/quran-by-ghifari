@@ -34,14 +34,8 @@ export default function DaftarSantri() {
             <Link href="/" className="text-gray-300 hover:text-white">
               Beranda
             </Link>
-            <Link href="/sholat" className="text-gray-300 hover:text-white">
+            <Link href="/solat" className="text-gray-300 hover:text-white">
               Jadwal Sholat
-            </Link>
-            <Link href="/juz" className="text-gray-300 hover:text-white">
-              Pilih Juz
-            </Link>
-            <Link href="/pilih-surat" className="text-gray-300 hover:text-white">
-              Pilih Surat
             </Link>
             <Link href="/tentang-kami" className="text-gray-300 hover:text-white">
               Tentang Kami
