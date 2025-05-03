@@ -38,6 +38,16 @@ interface Ayat {
     };
   };
   latin: string;
+  text: string;
+  surah: {
+    number: number;
+    name: string;
+  };
+}
+
+interface pageData {
+  page: number;
+  ayats: Ayat[];
 }
 
 interface ApiResponse {
@@ -55,21 +65,9 @@ type MapAyat = Record<string, Ayat[]>;
 const mapSurat: MapSurat = {};
 const mapAyat: MapAyat = {};
 
-// array angka arab
-function toArabicNumber(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return num
-    .toString()
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)])
-    .join("");
-}
-
 // array angka terjemahan
 
 // fungsi convert angka biasa ke angka arab
-
-
 
 const SuratPage = ({ surat_id }: { surat_id: string }) => {
   const [data, setData] = useState<any | null>(null);
@@ -115,6 +113,33 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
     };
 
     fetchData();
+    function toArabicNumber(num: number): string {
+      const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+      return num
+        .toString()
+        .split("")
+        .map((d) => arabicDigits[parseInt(d)])
+        .join("");
+    }
+
+    const groupAyahsBySurah = (ayahs: Ayat[]) => {
+      const grouped: {
+        surah: { number: number; name: string };
+        ayahs: Ayat[];
+      }[] = [];
+      let currentSurah = null;
+
+      for (const ayah of ayahs) {
+        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
+          currentSurah = ayah.surah;
+          grouped.push({ surah: currentSurah, ayahs: [ayah] });
+        } else {
+          grouped[grouped.length - 1].ayahs.push(ayah);
+        }
+      }
+
+      return grouped;
+    };
   }, [surat_id]);
 
   return (
@@ -166,6 +191,7 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
               </nav>
             </div>
           </header>
+
           <div className="w-full max-w-4xl">
             <h1 className="text-3xl font-bold mb-2 text-center">
               📖 Surah {data.data[0]?.surah.nama_latin}
@@ -175,7 +201,7 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
             </p>
 
             <div className="space-y-4">
-              {data.data.map((item: any) => (
+              {data.data.map((item: { surah: Surah; ayat: Ayat }) => (
                 <div
                   key={item.ayat.number.inQuran}
                   className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
@@ -185,10 +211,11 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
                   >
                     {item.ayat.arab}
                   </p>
-                  <p className="text-sm italic text-gray-300 mb-1">
+                  {/* <p className="text-sm italic text-gray-300 mb-1">
                     {item.ayat.latin}
-                  </p>
+                  </p> */}
                   <p className="text-base text-gray-200">
+                    <span>{item.ayat.number.inSurah}. </span>
                     {item.ayat.translation}
                   </p>
                 </div>
