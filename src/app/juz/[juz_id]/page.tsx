@@ -142,10 +142,10 @@ export default function QuranPage() {
           {/* Menu Navigasi */}
           <nav className="flex space-x-6">
             <Link
-              href="/setoran/input-nama-santri"
+              href="/"
               className="text-gray-300 hover:text-white transition"
             >
-              Tambah Santri
+              Beranda
             </Link>
             <Link
               href="/solat"
@@ -159,12 +159,7 @@ export default function QuranPage() {
             >
               Pilih Juz
             </Link>
-            <Link
-              href="/pilih-surat"
-              className="text-gray-300 hover:text-white transition"
-            >
-              Pilih Surat
-            </Link>
+            
             <Link
               href="/tentang-kami"
               className="text-gray-300 hover:text-white transition"
