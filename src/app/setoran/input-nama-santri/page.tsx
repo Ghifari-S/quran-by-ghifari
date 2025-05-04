@@ -120,7 +120,7 @@ export default function DaftarSantri() {
           {santris.map((santri, index) => (
             <div
               key={index}
-              className="bg-black p-6 rounded-lg shadow-lg hover:bg-gray-800 transition text-center"
+              className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-black transition text-center"
             >
               <h3 className="text-white text-xl font-semibold">
                 {santri.nama}
