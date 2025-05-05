@@ -1,6 +1,6 @@
 "use client";
 
-import {openDB, IDBPDatabase } from "idb";
+import { openDB, IDBPDatabase } from "idb";
 import { useEffect, useState } from "react";
 import localFont from "next/font/local";
 import { addData, getDataById } from "@/lib/db-api";
@@ -150,7 +150,6 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
 
       {!loading && !error && data && (
         <div className="w-full flex flex-col items-center">
-
           <div className="w-full max-w-4xl">
             <h1 className="text-3xl font-bold mb-2 text-center">
               📖 Surah {data.data[0]?.surah.nama_latin}
@@ -163,16 +162,13 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
               {data.data.map((item: { surah: Surah; ayat: Ayat }) => (
                 <div
                   key={item.ayat.number.inQuran}
-                  className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition"
+                  className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col gap-7"
                 >
                   <p
-                    className={`text-2xl text-right font-bold mb-2 ${lpmqFont.className}`}
+                    className={`text-2xl text-right font-bold leading-loose ${lpmqFont.className}`}
                   >
                     {item.ayat.arab}
                   </p>
-                  {/* <p className="text-sm italic text-gray-300 mb-1">
-                    {item.ayat.latin}
-                  </p> */}
                   <p className="text-base text-gray-200">
                     <span>{item.ayat.number.inSurah}. </span>
                     {item.ayat.translation}
@@ -180,6 +176,24 @@ const SuratPage = ({ surat_id }: { surat_id: string }) => {
                 </div>
               ))}
             </div>
+          </div>
+          <div className="mt-8 mb-8 flex justify-center gap-4">
+            {parseInt(surat_id) > 1 && (
+              <Link href={`/setoran/halaman-setoran/${parseInt(surat_id) - 1}`}
+              className="bg-gray-800 p-4 rounded-lg"
+              >
+                Sebelumnya
+              </Link>
+            )}
+            <Link href="/setoran/input-nama-santri"
+            className="bg-gray-800 p-4 rounded-lg">Kembali</Link>
+
+            {parseInt(surat_id) < 604 && (
+              <Link href={`/setoran/halaman-setoran/${parseInt(surat_id) + 1}`}
+              className="bg-gray-800 p-4 rounded-lg">
+                Selanjutnya
+              </Link>
+            )}
           </div>
         </div>
       )}
