@@ -22,18 +22,21 @@ export default function DaftarSantri() {
     if (!nama.trim()) return;
 
     setSantris([...santris, { nama, sekolah }]);
-    localStorage.setItem("santri", JSON.stringify([...santris, { nama, sekolah }]))
+    localStorage.setItem(
+      "santri",
+      JSON.stringify([...santris, { nama, sekolah }])
+    );
     setNama("");
     setSekolah("");
     setShowForm(false);
   };
-  useEffect(()=> {
-    const getData = localStorage.getItem("santri")
+  useEffect(() => {
+    const getData = localStorage.getItem("santri");
 
-    if(getData){
-      setSantris(JSON.parse(getData))
+    if (getData) {
+      setSantris(JSON.parse(getData));
     }
-  },[])
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200">
@@ -115,18 +118,20 @@ export default function DaftarSantri() {
       )}
 
       {/* Grid Daftar Santri */}
-      <div className="flex justify-center px-4">
+      <div className="flex justify-center px-4 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl w-full">
           {santris.map((santri, index) => (
-            <div
-              key={index}
-              className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-black transition text-center"
-            >
-              <h3 className="text-white text-xl font-semibold">
-                {santri.nama}
-              </h3>
-              <p className="text-gray-400 mt-2">{santri.sekolah}</p>
-            </div>
+            <Link href={`/setoran/halaman-setoran/1`} key={index}>
+              <div
+                key={index}
+                className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-black transition text-center"
+              >
+                <h3 className="text-white text-xl font-semibold">
+                  {santri.nama}
+                </h3>
+                <p className="text-gray-400 mt-2">{santri.sekolah}</p>
+              </div>{" "}
+            </Link>
           ))}
         </div>
       </div>
