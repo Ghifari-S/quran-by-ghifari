@@ -3,6 +3,7 @@
 import PrayerTimes from "@/components/PrayerTimes";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Navigation from "@/components/navigation-menu";
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState({
@@ -11,7 +12,6 @@ export default function Home() {
   }); // Default: Jakarta
 
   useEffect(() => {
-    // Dapatkan lokasi pengguna jika diizinkan
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCoordinates({
@@ -23,39 +23,21 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <header className="w-full bg-gray-800 shadow-md mb-8">
-        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-          {/* Logo atau Nama Aplikasi */}
-          <div className="text-2xl font-bold text-white">📖 Tadabbur Quran</div>
-
-          {/* Menu Navigasi */}
-          <nav className="flex space-x-6">
-            <Link
-              href="/"
-              className="text-gray-300 hover:text-white transition"
-            >
-              Beranda
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-gray-300 hover:text-white transition"
-            >
-              Tentang Kami
-            </Link>
-          </nav>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-900 text-gray-200">
+      <Navigation />
       <main className="container mx-auto py-8 px-4">
-        <h1 className="text-2xl font-bold text-center mb-6">
+        <h1 className="text-3xl font-bold text-center mb-6">
           Jadwal Waktu Salat
         </h1>
-        <PrayerTimes
-          latitude={coordinates.latitude}
-          longitude={coordinates.longitude}
-          locationName="Lokasi Saat Ini"
-        />
+        <div className="flex justify-center">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-3xl">
+            <PrayerTimes
+              latitude={coordinates.latitude}
+              longitude={coordinates.longitude}
+              locationName="Lokasi Saat Ini"
+            />
+          </div>
+        </div>
       </main>
     </div>
   );
