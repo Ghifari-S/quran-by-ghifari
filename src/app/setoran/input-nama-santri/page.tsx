@@ -69,16 +69,18 @@ export default function DaftarSantri() {
       </header>
 
       {/* Tombol Aksi */}
-      <div className="flex flex-col items-center mb-6 space-y-3">
+      <div className="flex flex-col  mb-20 space-y-3">
+        <button className=" text-4xl font-black text-white px-4 py-2 rounded">
+          Daftar Santri
+        </button>
+        <div className="flex flex-col items-start ">
         <button
           onClick={() => setShowForm(true)}
-          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition"
+          className="bg-white text-black px-4 ml-10 py-2 rounded hover:bg-gray-200 transition"
         >
           Tambah Santri
         </button>
-        <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition">
-          Daftar Santri
-        </button>
+        </div>
       </div>
 
       {/* Modal Input Santri */}
@@ -100,7 +102,7 @@ export default function DaftarSantri() {
               />
             </div>
             <div>
-              <label className="block mb-1">Nama Sekolah</label>
+              <label className="block mb-1">Kelas</label>
               <input
                 type="text"
                 value={sekolah}
