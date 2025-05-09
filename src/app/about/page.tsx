@@ -16,12 +16,12 @@ const Nama = () => {
 
         {/* Content Section */}
         <div className="space-y-6 text-gray-700">
-          <p className="text-lg leading-relaxed">
+          {/* <p className="text-lg leading-relaxed">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est sapiente
             ducimus hic consectetur cum qui tempora odit temporibus fugiat,
             reprehenderit eius at harum corrupti ipsum magnam facere voluptates
             illo rerum!
-          </p>
+          </p> */}
 
           <div className="bg-emerald-50 p-6 rounded-lg border-l-4 border-emerald-500">
             <h3 className="text-xl font-semibold text-emerald-700 mb-4 flex items-center">
